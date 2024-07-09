@@ -51,7 +51,9 @@ export const DELETE = async (request: Request) => {
     try {
         const { searchParams } = new URL(request.url)
         const userId = searchParams.get("userId")
-
+        if (!userId) {
+            return new NextResponse("User ID is required", { status: 400 });
+        }
         await connect()
         const deletedUser = await User.findByIdAndDelete(new Types.ObjectId(userId))
 

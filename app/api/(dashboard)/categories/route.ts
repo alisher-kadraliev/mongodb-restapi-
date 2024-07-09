@@ -9,7 +9,9 @@ export const GET = async (request: Request) => {
     try {
         const { searchParams } = new URL(request.url)
         const userId = searchParams.get("userId")
-
+        if (!userId) {
+            return new NextResponse("User ID is required", { status: 400 });
+        }
         await connect()
 
         const user = await User.findById(userId)
@@ -28,7 +30,9 @@ export const POST = async (request: Request) => {
         const { searchParams } = new URL(request.url)
         const userId = searchParams.get("userId")
         const { title } = await request.json()
-
+        if (!userId) {
+            return new NextResponse("User ID is required", { status: 400 });
+        }
         await connect()
 
         const user = await User.findById(userId)
